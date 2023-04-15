@@ -26,7 +26,7 @@ function findMatchingObjects(newsArr, tagsArr) {
   return matchedObjects.sort((a, b) => b.numberOfMatchedTags - a.numberOfMatchedTags);
 }
 
-module.exports = findMatchingObjects
+export default findMatchingObjects
 
 // function findMatchingObjects(newsArr, tagsArr) {
 //     const matchedObjects = [];
