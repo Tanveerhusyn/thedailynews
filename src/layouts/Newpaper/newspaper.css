@@ -1,0 +1,135 @@
+.newspaper {
+  
+  background:#F7F7F7;
+ /* background:url('https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'); */
+ padding: 50px;
+ /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+ font-family: Georgia, serif;
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ grid-gap: 50px;
+ 
+}
+
+p{
+ 
+ font-size: 10px;
+ text-align: justify;
+}
+.newspaper-section{
+ font-size: 10px;
+ position: absolute;
+ right:1%
+}
+.newspaper-header {
+ grid-column: 1 / -1;
+ text-align: center;
+ width:90%;
+ border-bottom: 5px solid rgb(163, 159, 159);
+}
+
+.newspaper-title {
+ font-size: 48px;
+ margin-bottom: 2px;
+}
+
+.newspaper-category{
+ font-size: 25px;
+ width: 60%;
+ margin-bottom: 10px;
+ justify-content: space-between;
+ align-content: flex-end;
+ display: flex;
+ flex-direction: row-reverse;
+}
+
+.newspaper-category > p{
+ font-size: 25px;
+
+ 
+}
+
+
+
+.newspaper-date {
+ font-size: 15px;
+ color: #999;
+ 
+}
+h5{
+ font-size:12px;
+}
+.newspaper-content {
+ display: grid;
+ grid-template-columns: 3fr;
+ grid-gap: 20px;
+ 
+}
+
+.newspaper-content-left {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+ width: 134px;
+ font-size: 10px;
+ text-align: justify;
+}
+
+.newspaper-content-right {
+ grid-column: 2 / span 1;
+ grid-row: 1 / span 1;
+ display: flex;
+ font-size: 10px;
+ flex-direction: column;
+ justify-content: center;
+ width: 200px;
+ justify-content: flex-start;
+}
+.newspaper-content-last {
+ grid-column: 3 / span 1;
+ grid-row: 1 / span 1;
+ display: flex;
+ font-size: 10px;
+ flex-direction: column;
+ justify-content: center;
+ width: 200px;
+ justify-content: flex-start;
+}
+
+figure {
+ margin: 0;
+ font-size:12px;
+ text-align: center;
+ 
+}
+
+.newspaper-content img {
+ width: 100%;
+ height: auto;
+ margin-bottom: 10px;
+}
+
+figcaption{
+ width: max-content;
+}
+.bottom-articles{
+text-align: justify;
+   width: 100%;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 8;
+   margin-bottom: 5px;
+   margin-right: 12px;
+   line-height: 1.4em;
+
+ 
+}
+.newspaper-content figcaption {
+ font-style: italic;
+ font-size: 10px;
+ color: #999;
+ margin-top: 10px;
+ font-size: 4px;
+}
