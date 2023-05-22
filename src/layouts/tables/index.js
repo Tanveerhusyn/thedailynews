@@ -1,8 +1,9 @@
 /* eslint-disable */
 // @mui material components
+import React from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import {useState} from 'react'
+import { useState } from "react";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -17,6 +18,7 @@ import DataTable from "examples/Tables/DataTable";
 import { Link } from "react-router-dom";
 // Data
 import authorsTableData from "layouts/tables/data/authorsTableData";
+// import authorsTableData1 from "layouts/tables/data/authorsTableData1";ss
 import projectsTableData from "layouts/tables/data/projectsTableData";
 import {
   Button,
@@ -27,8 +29,105 @@ import {
   makeStyles,
 } from "@material-ui/core";
 
-function Tables() {
+import PropTypes from "prop-types";
+import SwipeableViews from "react-swipeable-views";
+import { useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
+  };
+}
+
+function FullWidthTabs({ children1, children2, children3, children4 }) {
+  const theme = useTheme();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
+
+  return (
+    <Box sx={{ bgcolor: "background.paper", width: "100%" }}>
+      <AppBar position="static">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="inherit"
+          variant="fullWidth"
+          sx={{
+            "MuiTabs-root": {
+              background: "red",
+            },
+          }}
+          aria-label="full width tabs example"
+        >
+          <Tab label="Business" {...a11yProps(0)} />
+          <Tab label="Sports" {...a11yProps(1)} />
+          <Tab label="Entertainment" {...a11yProps(2)} />
+          <Tab label="Politics" {...a11yProps(3)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+          {children1}
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+          {children2}
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
+          {children3}
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+          {children4}
+        </TabPanel>
+      </SwipeableViews>
+    </Box>
+  );
+}
+
+function Tables() {
   const useStyles = makeStyles((theme) => ({
     dialog: {
       maxWidth: "35%",
@@ -80,8 +179,25 @@ function Tables() {
     setSelectedDate(event.target.value);
   };
 
-  const { columns, rows } = authorsTableData();
+  const {
+    columns,
+    rows,
+    rows2,
+    rows3,
+    rows4,
+    sportsNews,
+    entertainmentNews,
+    businessNews,
+    politicsNews,
+    selectedRows,
+  } = authorsTableData();
+  // const { columns1, rows } = authorsTableData1();
+
   const { columns: pColumns, rows: pRows } = projectsTableData();
+
+  const [selectedCategory, setSelectedCategory] = useState("business");
+
+  // console.log("Outside",selectedRows)
 
   return (
     <DashboardLayout>
@@ -90,69 +206,72 @@ function Tables() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                display="flex"
-                justifyContent="space-between"
-                variant="gradient"
-                bgColor="success"
-                borderRadius="lg"
-                coloredShadow="info"
-              >
-                <MDTypography variant="h6" color="white">
-                  Published Reports
-                </MDTypography>
-                {/* <Link to="/epaper"> */}
-                {/* <MDButton variant="gradient" color="white" onClick={handleOpen}>
-                  Create Newspaper
-                </MDButton> */}
-                {/* </Link> */}
-                <>
-                  <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    maxWidth="md"
-                    PaperProps={{ style: { maxWidth: "35%", width: "35%", height: "45%" } }}
-                  >
-                    <DialogTitle className={classes.title}>
-                      Select a date to generate Newspaper
-                    </DialogTitle>
-                    <DialogContent>
-                      <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        className={classes.input}
-                      />
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        // onClick={handleGenerate}
-                        className={classes.button}
-                        sx={{ margin: "20px" }}
-                      >
-                        Generate
-                      </Button>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose} color="primary">
-                        Close
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </>
-              </MDBox>
               <MDBox pt={3}>
-                <DataTable
+                <FullWidthTabs
+                  children1={
+                    <DataTable
+                      cat="business"
+                      table={{ columns, rows, allData: businessNews, selectedRows: selectedRows }}
+                      isSorted={false}
+                      entriesPerPage={false}
+                      showTotalEntries={false}
+                      noEndBorder
+                    />
+                  }
+                  children2={
+                    <DataTable
+                      cat="sports"
+                      table={{
+                        columns,
+                        rows: rows3,
+                        allData: sportsNews,
+                        selectedRows: selectedRows,
+                      }}
+                      isSorted={false}
+                      entriesPerPage={false}
+                      showTotalEntries={false}
+                      noEndBorder
+                    />
+                  }
+                  children3={
+                    <DataTable
+                      cat="entertainment"
+                      table={{
+                        columns,
+                        rows: rows2,
+                        allData: entertainmentNews,
+                        selectedRows: selectedRows,
+                      }}
+                      isSorted={false}
+                      entriesPerPage={false}
+                      showTotalEntries={false}
+                      noEndBorder
+                    />
+                  }
+                  children4={
+                    <DataTable
+                      cat="politics"
+                      table={{
+                        columns,
+                        rows: rows4,
+                        allData: politicsNews,
+                        selectedRows: selectedRows,
+                      }}
+                      isSorted={false}
+                      entriesPerPage={false}
+                      showTotalEntries={false}
+                      noEndBorder
+                    />
+                  }
+                />
+
+                {/* <DataTable
                   table={{ columns, rows }}
                   isSorted={false}
                   entriesPerPage={false}
                   showTotalEntries={false}
                   noEndBorder
-                />
+                /> */}
               </MDBox>
             </Card>
           </Grid>

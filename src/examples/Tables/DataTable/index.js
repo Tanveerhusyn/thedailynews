@@ -1,13 +1,18 @@
-
-
-import { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // react-table components
-import { useTable, usePagination, useGlobalFilter, useAsyncDebounce, useSortBy } from "react-table";
-
+import {
+  useTable,
+  usePagination,
+  useGlobalFilter,
+  useAsyncDebounce,
+  useSortBy,
+  useRowSelect,
+} from "react-table";
+import { useMaterialUIController, addCategoryDataAll, addCategoryDataSelected, setRefresh,setFrontPageData } from "context";
 // @mui material components
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -21,10 +26,13 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDPagination from "components/MDPagination";
-import PopupModel from 'examples/TextEditor'
+import PopupModel from "examples/TextEditor";
 // Material Dashboard 2 React example components
 import DataTableHeadCell from "examples/Tables/DataTable/DataTableHeadCell";
 import DataTableBodyCell from "examples/Tables/DataTable/DataTableBodyCell";
+import { Button } from "@mui/material";
+import MDButton from "components/MDButton";
+import select from "assets/theme/components/form/select";
 
 function DataTable({
   entriesPerPage,
@@ -34,6 +42,8 @@ function DataTable({
   pagination,
   isSorted,
   noEndBorder,
+  cat,
+ 
 }) {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
   const entries = entriesPerPage.entries
@@ -41,6 +51,24 @@ function DataTable({
     : ["5", "10", "15", "20", "25"];
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
+  const [controller, dispatch] = useMaterialUIController();
+
+  // const IndeterminateCheckbox = React.forwardRef(
+  //   ({ indeterminate, ...rest }, ref) => {
+  //     const defaultRef = React.useRef()
+  //     const resolvedRef = ref || defaultRef
+
+  //     React.useEffect(() => {
+  //       resolvedRef.current.indeterminate = indeterminate
+  //     }, [resolvedRef, indeterminate])
+
+  //     return (
+  //       <>
+  //         <input type="checkbox" ref={resolvedRef} {...rest} />
+  //       </>
+  //     )
+  //   }
+  // )
 
   const tableInstance = useTable(
     { columns, data, initialState: { pageIndex: 0 } },
@@ -84,6 +112,25 @@ function DataTable({
       {option + 1}
     </MDPagination>
   ));
+
+  const handleAdd = () => {
+    const dataArray = table.allData.map((obj) => obj.data);
+    setRefresh(dispatch,!controller.refresh)
+    addCategoryDataAll(dispatch, { category: cat, data: dataArray });
+  };
+
+  
+  const handleAddSelected = () => {
+   console.log("Handlessss",table.selectedRows)
+   if(cat===table.selectedRows[0].category){
+      let rowData = table.selectedRows
+      console.log("Hand",rowData)
+      addCategoryDataSelected(dispatch, { category: cat, data:rowData });
+      // setRefresh(dispatch,!controller.refresh)
+    }
+  };
+
+
 
   // Handler for the input to set the pagination index
   const handleInputPagination = ({ target: { value } }) =>
@@ -131,7 +178,7 @@ function DataTable({
   } else {
     entriesEnd = pageSize * (pageIndex + 1);
   }
-const [OpenPop, setOpenPop] =  useState(true)
+  const [OpenPop, setOpenPop] = useState(true);
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
       {entriesPerPage || canSearch ? (
@@ -190,6 +237,7 @@ const [OpenPop, setOpenPop] =  useState(true)
         <TableBody {...getTableBodyProps()}>
           {page.map((row, key) => {
             prepareRow(row);
+
             return (
               <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => (
@@ -244,13 +292,30 @@ const [OpenPop, setOpenPop] =  useState(true)
             )}
             {canNextPage && (
               <MDPagination item onClick={() => nextPage()}>
-                <Icon  sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+                <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
               </MDPagination>
             )}
           </MDPagination>
         )}
+        {/* <Button  bgColor="green"  style={{marginRight:"25px"}}>Add All</Button> */}
+        <div>
+          <MDButton
+            onClick={handleAdd}
+            variant="gradient"
+            color="success"
+            style={{ marginRight: "25px" }}
+          >
+            Add All
+          </MDButton>
+          <MDButton
+            onClick={handleAddSelected}
+            variant="gradient"
+            color="success"
+          >
+            Add Selected
+          </MDButton>
+        </div>
       </MDBox>
-  
     </TableContainer>
   );
 }

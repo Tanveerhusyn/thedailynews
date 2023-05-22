@@ -23,7 +23,7 @@ import pxToRem from "assets/theme/functions/pxToRem";
 
 const { size, fontWeightRegular } = typography;
 const { borderRadius } = borders;
-const { dark } = colors;
+const { dark,white } = colors;
 
 const tab = {
   styleOverrides: {
@@ -40,7 +40,7 @@ const tab = {
       fontWeight: fontWeightRegular,
       textTransform: "none",
       lineHeight: "inherit",
-      padding: pxToRem(4),
+      padding: pxToRem(8),
       borderRadius: borderRadius.lg,
       color: `${dark.main} !important`,
       opacity: "1 !important",
@@ -55,10 +55,10 @@ const tab = {
         marginRight: pxToRem(6),
       },
     },
-
     labelIcon: {
       paddingTop: pxToRem(4),
     },
+  
   },
 };
 

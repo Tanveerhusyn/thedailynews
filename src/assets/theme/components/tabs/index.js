@@ -21,7 +21,7 @@ import boxShadows from "assets/theme/base/boxShadows";
 // Material Dashboard 2 React helper functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
-const { grey, white } = colors;
+const { grey, white,dark } = colors;
 const { borderRadius } = borders;
 const { tabsBoxShadow } = boxShadows;
 
@@ -29,10 +29,14 @@ const tabs = {
   styleOverrides: {
     root: {
       position: "relative",
-      backgroundColor: grey[100],
+      backgroundColor: '#55AE59',
       borderRadius: borderRadius.xl,
       minHeight: "unset",
-      padding: pxToRem(4),
+      padding: pxToRem(15),
+      marginLeft:10,
+      marginRight:10,
+      color:dark.main,
+      
     },
 
     flexContainer: {
@@ -40,7 +44,6 @@ const tabs = {
       position: "relative",
       zIndex: 10,
     },
-
     fixed: {
       overflow: "unset !important",
       overflowX: "unset !important",
@@ -58,6 +61,7 @@ const tabs = {
       backgroundColor: white.main,
       boxShadow: tabsBoxShadow.indicator,
       transition: "all 500ms ease",
+         
     },
   },
 };

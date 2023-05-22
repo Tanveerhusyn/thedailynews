@@ -54,6 +54,29 @@ function reducer(state, action) {
         },
       };
     }
+    case "ADD_IN_CATEGORY_SELECTED": {
+      console.log("INSIDE",action.value.data)
+      return {
+        ...state,
+        newsdata: {
+          ...state.newsdata,
+          [action.value.category]: [
+            ...state.newsdata[`${action.value.category}`],
+           ...action.value.data,
+          ],
+        },
+        
+      };
+    }
+    case "ADD_IN_CATEGORY_ALL": {
+      return {
+        ...state,
+        newsdata: {
+          ...state.newsdata,
+          [action.value.category]:[...action.value.data],
+        },
+      };
+    }
 
     
 
@@ -175,6 +198,8 @@ const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value })
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
 const addCategoryData = (dispatch, value) => dispatch({ type: "ADD_IN_CATEGORY", value });
+const addCategoryDataAll = (dispatch, value) => dispatch({ type: "ADD_IN_CATEGORY_ALL", value });
+const addCategoryDataSelected = (dispatch, value) => dispatch({ type: "ADD_IN_CATEGORY_SELECTED", value });
 const setRefresh = (dispatch, value) => dispatch({ type: "SETREFRESH", value });
 const setFrontPageData = (dispatch, value) => dispatch({ type: "POPULATE_FRONTPAGE", value });
 // const setNewsData = (dispatch, value) => dispatch({ type: "POPULATE_NEWS", value });
@@ -197,6 +222,8 @@ export {
   setLayout,
   setDarkMode,
   addCategoryData,
+  addCategoryDataAll,
+  addCategoryDataSelected,
   setFrontPageData,
   setNewsData,
   updateData,

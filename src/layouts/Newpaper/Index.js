@@ -95,6 +95,8 @@ const Newspaper = () => {
     setFrontPageData(dispatch, "dsfs");
     setNews(controller.newsdata);
 
+    console.log("FRONTEND",controller.newsdata)
+
     const handleAfterPrint = () => {
       setPrint(dispatch, false);
     };
